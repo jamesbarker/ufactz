@@ -13,6 +13,7 @@ export interface RolePair {
 export const ROLE_PAIRS: RolePair[] = [
   { role: 'parent', counter: 'child' },
   { role: 'child', counter: 'parent' },
+  { role: 'partner', counter: 'partner', symmetric: true },
 ]
 
 export function counterRole(role: string): string {
