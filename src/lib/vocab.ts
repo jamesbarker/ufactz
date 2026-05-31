@@ -13,6 +13,11 @@ export interface RolePair {
 export const ROLE_PAIRS: RolePair[] = [
   { role: 'parent', counter: 'child' },
   { role: 'child', counter: 'parent' },
+  { role: 'grandparent', counter: 'grandchild' },
+  { role: 'grandchild', counter: 'grandparent' },
+  { role: 'sibling', counter: 'sibling', symmetric: true },
+  { role: 'owner', counter: 'pet' },
+  { role: 'pet', counter: 'owner' },
   { role: 'partner', counter: 'partner', symmetric: true },
 ]
 
