@@ -102,7 +102,7 @@ export default function AddRelationship() {
 
   return (
     <div className="app">
-      <AppBar title="Add relationship" backTo={`/entity/${me.id}`} />
+      <AppBar title="Add relationship" backTo={`/entity/${me.id}`} right={done} />
       <div className="content">
         <button className="chip active" style={{ marginBottom: 16 }} onClick={backToRoles}>
           ‹ {me.name} is the {role}
