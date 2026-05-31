@@ -5,6 +5,7 @@ export default function Home() {
   const navigate = useNavigate()
   const circles = useStore((s) => s.circles)
   const entities = useStore((s) => s.entities)
+  const relationships = useStore((s) => s.relationships)
 
   const countFor = (circleId: string) =>
     entities.filter((e) => e.circleIds.includes(circleId)).length
@@ -59,6 +60,23 @@ export default function Home() {
           <p className="hint">
             Tap “Add circle” to create your first group — like “Dog Club” or “Work”.
           </p>
+        )}
+
+        {entities.length > 0 && (
+          <div className="stats">
+            <div className="stat">
+              <span className="stat-n">{entities.length}</span>
+              <span className="stat-label">
+                {entities.length === 1 ? 'profile' : 'profiles'}
+              </span>
+            </div>
+            <div className="stat">
+              <span className="stat-n">{relationships.length}</span>
+              <span className="stat-label">
+                {relationships.length === 1 ? 'relationship' : 'relationships'}
+              </span>
+            </div>
+          </div>
         )}
       </div>
     </div>
