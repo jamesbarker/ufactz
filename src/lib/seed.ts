@@ -1,15 +1,11 @@
 import type { AppData } from '../types'
 
-const t = 1_700_000_000_000 // fixed timestamp so seeding is deterministic
-
 const ent = (id: string, name: string, circleIds: string[], emoji?: string, notes?: string) => ({
   id,
   name,
   circleIds,
   emoji,
   notes,
-  createdAt: t,
-  updatedAt: t,
 })
 
 /** What a brand-new user sees on first open: a tiny example that shows the
@@ -27,6 +23,6 @@ export const SEED: AppData = {
   ],
   relationships: [
     // James is the owner of Oreo → Oreo's card shows "Owner: James"
-    { id: 'r1', fromId: 'e_james', toId: 'e_oreo', fromRole: 'owner', toRole: 'pet', createdAt: t },
+    { id: 'r1', fromId: 'e_james', toId: 'e_oreo', fromRole: 'owner', toRole: 'pet' },
   ],
 }

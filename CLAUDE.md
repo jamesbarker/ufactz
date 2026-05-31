@@ -59,10 +59,11 @@ import/export/reset). Key things to know:
   until then — components can assume data is loaded once rendered past the splash.
 - **Schema versioning + migration**: `SCHEMA_VERSION` (types.ts) is the persist `version`.
   v1 was the old "whodat" app (people with `hooks`, circles with `hookSuggestions`); the
-  `migrate` fn folds each person's hooks into `notes` and drops the type distinction. v3 removed
-  the per-entity `photo` field, so `migrate` rebuilds each stored entity with only the current
-  fields to strip any saved photo. A legacy storage key `whodat-data` is read-once and renamed
-  so the rename didn't wipe data.
+  `migrate` fn folds each person's hooks into `notes` and drops the type distinction. Later
+  versions trimmed the entity shape (v3 dropped `photo`, v4 dropped the unused
+  `createdAt`/`updatedAt` timestamps), so `migrate` rebuilds each stored entity with only the
+  current fields to strip anything removed. A legacy storage key `whodat-data` is read-once and
+  renamed so the rename didn't wipe data.
 - **When you change the data model**: update `types.ts`, the relevant store reducers,
   `partialize`, **bump `SCHEMA_VERSION`**, and add a branch to `migrate`.
 - Roles are normalized to **lowercase + trimmed on write** (`addRelationship`); use

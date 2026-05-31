@@ -95,15 +95,12 @@ export const useStore = create<State>()(
 
       addEntity: (e) => {
         const id = uid()
-        const now = Date.now()
         const entity: Entity = {
           id,
           name: e.name.trim(),
           emoji: e.emoji,
           notes: e.notes?.trim() || undefined,
           circleIds: e.circleIds,
-          createdAt: now,
-          updatedAt: now,
         }
         set((s) => ({ entities: [...s.entities, entity] }))
         return id
@@ -118,7 +115,6 @@ export const useStore = create<State>()(
                   emoji: e.emoji,
                   notes: e.notes?.trim() || undefined,
                   circleIds: e.circleIds,
-                  updatedAt: Date.now(),
                 }
               : existing,
           ),
@@ -139,7 +135,6 @@ export const useStore = create<State>()(
               toId: r.toId,
               fromRole: r.fromRole.trim().toLowerCase(),
               toRole: r.toRole.trim().toLowerCase(),
-              createdAt: Date.now(),
             },
           ],
         })),
@@ -166,8 +161,9 @@ export const useStore = create<State>()(
       }),
       // v1 stored { circles (with hookSuggestions), people (with hooks) }.
       // Fold each person's hooks into notes so nothing is lost, and turn
-      // people into plain entities. v2 stored a `photo` data URL per entity;
-      // v3 dropped photos, so we strip any stored photo below.
+      // people into plain entities. Later versions trimmed the entity shape:
+      // v3 dropped the `photo` data URL, v4 dropped the unused createdAt/
+      // updatedAt timestamps. The rebuild below keeps only the current fields.
       migrate: (persisted, version) => {
         let data: AppData
         if (version < 2 && persisted && typeof persisted === 'object') {
@@ -179,8 +175,6 @@ export const useStore = create<State>()(
               notes?: string
               circleIds?: string[]
               hooks?: { label: string; value: string }[]
-              createdAt?: number
-              updatedAt?: number
             }[]
           }
           const circles: Circle[] = (p.circles ?? []).map((c) => ({
@@ -199,16 +193,14 @@ export const useStore = create<State>()(
               name: person.name,
               notes,
               circleIds: person.circleIds ?? [],
-              createdAt: person.createdAt ?? 0,
-              updatedAt: person.updatedAt ?? 0,
             }
           })
           data = { circles, entities, relationships: [] }
         } else {
           data = (persisted ?? { circles: [], entities: [], relationships: [] }) as AppData
         }
-        // v2 → v3: rebuild each entity with only the current fields so any
-        // stored `photo` is dropped.
+        // Rebuild each entity with only the current fields so any dropped
+        // field (old `photo`, `createdAt`/`updatedAt`) is stripped.
         return {
           circles: data.circles ?? [],
           relationships: data.relationships ?? [],
@@ -218,8 +210,6 @@ export const useStore = create<State>()(
             emoji: e.emoji,
             notes: e.notes,
             circleIds: e.circleIds,
-            createdAt: e.createdAt,
-            updatedAt: e.updatedAt,
           })),
         }
       },

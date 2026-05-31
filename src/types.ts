@@ -8,8 +8,6 @@ export interface Entity {
   emoji?: string
   notes?: string
   circleIds: ID[]
-  createdAt: number
-  updatedAt: number
 }
 
 /**
@@ -25,7 +23,6 @@ export interface Relationship {
   toId: ID
   fromRole: string
   toRole: string
-  createdAt: number
 }
 
 export interface Circle {
@@ -41,4 +38,4 @@ export interface AppData {
   relationships: Relationship[]
 }
 
-export const SCHEMA_VERSION = 3
+export const SCHEMA_VERSION = 4
