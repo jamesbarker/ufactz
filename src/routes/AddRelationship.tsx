@@ -21,6 +21,17 @@ export default function AddRelationship() {
 
   if (!me) return <Navigate to="/" replace />
 
+  const done = (
+    <button
+      className="iconbtn"
+      aria-label="Done"
+      style={{ width: 'auto', padding: '0 12px', fontSize: 16, fontWeight: 600, color: 'var(--accent)' }}
+      onClick={() => navigate(`/entity/${me.id}`)}
+    >
+      Done
+    </button>
+  )
+
   const backToRoles = () => {
     setStep('role')
     setRole('')
@@ -61,7 +72,7 @@ export default function AddRelationship() {
     )
     return (
       <div className="app">
-        <AppBar title="Add relationship" backTo={`/entity/${me.id}`} />
+        <AppBar title="Add relationship" backTo={`/entity/${me.id}`} right={done} />
         <div className="content">
           <p className="hint" style={{ marginBottom: 14 }}>
             <strong>{me.name}</strong> is the…
