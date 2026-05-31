@@ -13,23 +13,9 @@ export interface RolePair {
 export const ROLE_PAIRS: RolePair[] = [
   { role: 'owner', counter: 'pet' },
   { role: 'pet', counter: 'owner' },
-  { role: 'mother', counter: 'child' },
-  { role: 'father', counter: 'child' },
   { role: 'parent', counter: 'child' },
   { role: 'child', counter: 'parent' },
-  { role: 'grandparent', counter: 'grandchild' },
-  { role: 'sibling', counter: 'sibling', symmetric: true },
-  { role: 'spouse', counter: 'spouse', symmetric: true },
   { role: 'partner', counter: 'partner', symmetric: true },
-  { role: 'friend', counter: 'friend', symmetric: true },
-  { role: 'colleague', counter: 'colleague', symmetric: true },
-  { role: 'neighbour', counter: 'neighbour', symmetric: true },
-  { role: 'coach', counter: 'player' },
-  { role: 'player', counter: 'coach' },
-  { role: 'teacher', counter: 'student' },
-  { role: 'student', counter: 'teacher' },
-  { role: 'boss', counter: 'report' },
-  { role: 'report', counter: 'boss' },
 ]
 
 export function counterRole(role: string): string {
