@@ -8,7 +8,7 @@ import AppBar from '../components/AppBar'
 /**
  * Add two profiles and the relationship between them in one screen, both joining
  * the current circle. The relationship defaults to the circle's most-used pair
- * (e.g. owner/pet in Dog Club). Typing a name that already exists links to that
+ * (e.g. parent/child). Typing a name that already exists links to that
  * profile instead of creating a duplicate — so "one side already in the circle"
  * works without a separate picker.
  */
@@ -28,10 +28,10 @@ export default function QuickAdd() {
   )
   const top = circle ? topRelationPair(entities, relationships, circle.id) : undefined
   const topIsPreset = top ? presets.some((p) => p.role === top.fromRole) : false
+  const defaultRole = top && topIsPreset ? top.fromRole : presets[0].role
 
-  const [role, setRole] = useState(top?.fromRole ?? 'owner')
-  const [counter, setCounter] = useState(top?.toRole ?? counterRole('owner'))
-  const [custom, setCustom] = useState(top ? !topIsPreset : false)
+  const [role, setRole] = useState(defaultRole)
+  const [counter, setCounter] = useState(counterRole(defaultRole))
   const [nameA, setNameA] = useState('')
   const [nameB, setNameB] = useState('')
 
@@ -51,7 +51,6 @@ export default function QuickAdd() {
   const pickPreset = (r: string) => {
     setRole(r)
     setCounter(counterRole(r))
-    setCustom(false)
   }
 
   // Reuse an existing profile by exact name (adding this circle to it), else
@@ -124,62 +123,20 @@ export default function QuickAdd() {
 
         <div className="field">
           <label>Relationship</label>
-          {custom ? (
-            <>
-              <div className="hook-row">
-                <input
-                  type="text"
-                  placeholder="first is the…"
-                  value={role}
-                  onChange={(e) => setRole(e.target.value)}
-                />
-                <input
-                  type="text"
-                  placeholder="second is the…"
-                  value={counter}
-                  onChange={(e) => setCounter(e.target.value)}
-                />
-              </div>
+          <div className="chips">
+            {presets.map((p) => (
               <button
-                className="chip"
-                style={{ marginTop: 10 }}
-                onClick={() => {
-                  setCustom(false)
-                  pickPreset(top && topIsPreset ? top.fromRole : presets[0].role)
-                }}
+                key={p.role}
+                className={'chip' + (role === p.role ? ' active' : '')}
+                onClick={() => pickPreset(p.role)}
               >
-                ‹ Back to presets
+                {titleCase(p.role)}
               </button>
-            </>
-          ) : (
-            <div className="chips">
-              {presets.map((p) => (
-                <button
-                  key={p.role}
-                  className={'chip' + (role === p.role ? ' active' : '')}
-                  onClick={() => pickPreset(p.role)}
-                >
-                  {titleCase(p.role)}
-                </button>
-              ))}
-              <button
-                className="chip"
-                onClick={() => {
-                  setCustom(true)
-                  setRole('')
-                  setCounter('')
-                }}
-              >
-                ＋ Custom
-              </button>
-            </div>
-          )}
-          {roleReady && (
-            <p className="hint">
-              {a || 'First'} is the <em>{role || '…'}</em>, {b || 'second'} is the{' '}
-              <em>{counter || role || '…'}</em>.
-            </p>
-          )}
+            ))}
+          </div>
+          <p className="hint">
+            {a || 'First'} is the <em>{role}</em>, {b || 'second'} is the <em>{counter || role}</em>.
+          </p>
         </div>
 
         <div className="field">

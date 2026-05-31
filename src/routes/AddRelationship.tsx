@@ -15,7 +15,6 @@ export default function AddRelationship() {
 
   // step: 'role' (pick the role) → 'target' (pick/create the other card)
   const [step, setStep] = useState<'role' | 'target'>('role')
-  const [custom, setCustom] = useState(false)
   const [role, setRole] = useState('')
   const [counter, setCounter] = useState('')
   const [query, setQuery] = useState('')
@@ -24,7 +23,6 @@ export default function AddRelationship() {
 
   const backToRoles = () => {
     setStep('role')
-    setCustom(false)
     setRole('')
     setCounter('')
   }
@@ -32,14 +30,6 @@ export default function AddRelationship() {
   const pickPreset = (r: string) => {
     setRole(r)
     setCounter(counterRole(r))
-    setCustom(false)
-    setStep('target')
-  }
-
-  const startCustom = () => {
-    setRole('')
-    setCounter('')
-    setCustom(true)
     setStep('target')
   }
 
@@ -82,9 +72,6 @@ export default function AddRelationship() {
                 {titleCase(p.role)}
               </button>
             ))}
-            <button className="chip" onClick={startCustom}>
-              ＋ Custom
-            </button>
           </div>
         </div>
       </div>
@@ -106,36 +93,9 @@ export default function AddRelationship() {
     <div className="app">
       <AppBar title="Add relationship" backTo={`/entity/${me.id}`} />
       <div className="content">
-        {custom ? (
-          <div className="field">
-            <button className="chip" style={{ marginBottom: 12 }} onClick={backToRoles}>
-              ‹ Back to roles
-            </button>
-            <label>Roles</label>
-            <div className="hook-row">
-              <input
-                type="text"
-                placeholder={`${me.name} is the…`}
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder="they are the…"
-                value={counter}
-                onChange={(e) => setCounter(e.target.value)}
-              />
-            </div>
-            <p className="hint">
-              e.g. “{me.name} is the <em>{role || 'mentor'}</em>, they are the{' '}
-              <em>{counter || role || 'mentee'}</em>”.
-            </p>
-          </div>
-        ) : (
-          <button className="chip active" style={{ marginBottom: 16 }} onClick={backToRoles}>
-            ‹ {me.name} is the {role}
-          </button>
-        )}
+        <button className="chip active" style={{ marginBottom: 16 }} onClick={backToRoles}>
+          ‹ {me.name} is the {role}
+        </button>
 
         {roleReady && (
           <>

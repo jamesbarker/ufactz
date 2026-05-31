@@ -128,8 +128,8 @@ export default function EntityEdit() {
         </button>
         {!isEdit && (
           <p className="hint" style={{ marginTop: 10 }}>
-            After saving you can link this profile to others — e.g. add an owner, a
-            parent, or a colleague.
+            After saving you can link this profile to others — e.g. add a parent or a
+            child.
           </p>
         )}
       </div>
