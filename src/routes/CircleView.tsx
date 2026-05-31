@@ -42,13 +42,22 @@ export default function CircleView() {
         title={`${circle.emoji} ${circle.name}`}
         backTo="/"
         right={
-          <button
-            className="iconbtn"
-            aria-label="Edit circle"
-            onClick={() => navigate(`/circle/${circle.id}/edit`)}
-          >
-            ⋯
-          </button>
+          <>
+            <button
+              className="iconbtn"
+              aria-label="Quick add a linked pair"
+              onClick={() => navigate(`/circle/${circle.id}/quick-add`)}
+            >
+              ⚡
+            </button>
+            <button
+              className="iconbtn"
+              aria-label="Edit circle"
+              onClick={() => navigate(`/circle/${circle.id}/edit`)}
+            >
+              ⋯
+            </button>
+          </>
         }
       />
       <div className="content">

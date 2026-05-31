@@ -7,6 +7,7 @@ import Home from './routes/Home'
 import CircleView from './routes/CircleView'
 import EntityDetail from './routes/EntityDetail'
 import EntityEdit from './routes/EntityEdit'
+import QuickAdd from './routes/QuickAdd'
 import AddRelationship from './routes/AddRelationship'
 import CircleEdit from './routes/CircleEdit'
 import Search from './routes/Search'
@@ -39,6 +40,7 @@ export default function App() {
       <Route path="/settings" element={<Settings />} />
       <Route path="/circle/new" element={<CircleEdit />} />
       <Route path="/circle/:circleId" element={<CircleView />} />
+      <Route path="/circle/:circleId/quick-add" element={<QuickAdd />} />
       <Route path="/circle/:circleId/edit" element={<CircleEdit />} />
       <Route path="/entity/new" element={<EntityEdit />} />
       <Route path="/entity/:entityId" element={<EntityDetail />} />
