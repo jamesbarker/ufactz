@@ -33,6 +33,20 @@ export function relationsOf(
   return out.sort((a, b) => a.role.localeCompare(b.role) || a.other.name.localeCompare(b.other.name))
 }
 
+/**
+ * The roles an entity itself holds — the role word on *its own* side of each
+ * edge. There's no "type" field in the graph; what an entity *is* (owner, pet,
+ * mother…) emerges from this. Used to group/filter a circle by kind.
+ */
+export function rolesOf(relationships: Relationship[], id: string): string[] {
+  const roles = new Set<string>()
+  for (const r of relationships) {
+    if (r.fromId === id) roles.add(r.fromRole)
+    if (r.toId === id) roles.add(r.toRole)
+  }
+  return [...roles]
+}
+
 /** A one-line hint for a card row, e.g. "Owner: Sarah +1". */
 export function relationSummary(
   entities: Entity[],

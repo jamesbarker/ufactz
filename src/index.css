@@ -329,6 +329,11 @@ a {
   transform: scale(0.94);
 }
 
+/* filter bar at the top of a circle: pick a kind (owner, pet…) to show */
+.filter-chips {
+  margin-top: 2px;
+}
+
 .chip.active {
   background: var(--accent);
   border-color: var(--accent);
